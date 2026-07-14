@@ -10,7 +10,7 @@ const heroVideos = [
 ];
 
 const projects = [
-  ["https://assets.cdn.filesafe.space/FjfyTuO1vncfCoNQiCIM/media/69f90bc4ca15d8ddc43ba207.jpeg", "Frameless Shower Door", "Buckhead"],
+  ["/assets/les-dillard-buckhead-shower.jpg", "Frameless Shower Door", "Buckhead"],
   ["https://assets.cdn.filesafe.space/FjfyTuO1vncfCoNQiCIM/media/6a04814560b8c350d3cd7e48.png", "Custom Glass Enclosure", "Alpharetta"],
   ["https://assets.cdn.filesafe.space/FjfyTuO1vncfCoNQiCIM/media/6a048145fa8afa3be0b816a1.png", "Walk-In Shower Glass", "Dunwoody"],
   ["https://assets.cdn.filesafe.space/FjfyTuO1vncfCoNQiCIM/media/6962d731f8a93b439c9fca79.png", "Premium Glass Upgrade", "Sandy Springs"],
@@ -130,10 +130,10 @@ export default function Home() {
           </div>
           <aside className="hero-proof">
             <div className="proof-rating">
-              <div className="proof-mark">G</div>
-              <div><span className="proof-stars">★★★★★</span><b>4.9 Google Rating</b></div>
+              <img className="proof-avatar" src="https://randomuser.me/api/portraits/women/44.jpg" alt="Les Dillard" />
+              <div><b>Les Dillard</b><small>Buckhead · Verified customer</small><span className="proof-stars">★★★★★ <i>Google review</i></span></div>
             </div>
-            <p>Custom-fit shower glass, measured and installed with precision by our own certified team.</p>
+            <p>“From measurement to installation, everything was flawless. The finished glass transformed the entire shower.”</p>
             <button className="hero-project" onClick={() => setLightbox(0)} aria-label="View featured Buckhead installation">
               <img src={projects[0][0]} alt="Featured frameless shower installation in Buckhead" />
               <span><b>Featured installation</b><small>Buckhead, Atlanta</small></span>
