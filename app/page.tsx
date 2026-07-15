@@ -3,14 +3,16 @@
 import { FormEvent, useEffect, useState } from "react";
 
 const logo = "https://assets.cdn.filesafe.space/FjfyTuO1vncfCoNQiCIM/media/689cf1c57cb236c888630dd5.png";
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+const asset = (path: string) => `${basePath}${path}`;
 
 const heroVideos = [
-  "/assets/hero-bathroom.mp4",
-  "/assets/hero-installation.mp4",
+  asset("/assets/hero-bathroom.mp4"),
+  asset("/assets/hero-installation.mp4"),
 ];
 
 const projects = [
-  ["/assets/les-dillard-buckhead-shower.jpg", "Frameless Shower Door", "Buckhead"],
+  [asset("/assets/les-dillard-buckhead-shower.jpg"), "Frameless Shower Door", "Buckhead"],
   ["https://assets.cdn.filesafe.space/FjfyTuO1vncfCoNQiCIM/media/6a04814560b8c350d3cd7e48.png", "Custom Glass Enclosure", "Alpharetta"],
   ["https://assets.cdn.filesafe.space/FjfyTuO1vncfCoNQiCIM/media/6a048145fa8afa3be0b816a1.png", "Walk-In Shower Glass", "Dunwoody"],
   ["https://assets.cdn.filesafe.space/FjfyTuO1vncfCoNQiCIM/media/6962d731f8a93b439c9fca79.png", "Premium Glass Upgrade", "Sandy Springs"],
@@ -21,10 +23,10 @@ const projects = [
 ];
 
 const transformations = [
-  { before: "/assets/before-shower.jpeg", after: "/assets/after-shower.jpeg", title: "Sliding glass enclosure", detail: "A compact shower upgraded with clean glass panels and brushed metal hardware." },
-  { before: "/assets/before-double-shower.jpg", after: "/assets/after-double-shower.jpg", title: "Custom double shower", detail: "A dramatic full-width enclosure designed around a vaulted window and dual shower system." },
-  { before: "/assets/before-alcove-shower.jpg", after: "/assets/after-alcove-shower.jpg", title: "Frameless alcove door", detail: "A simple open alcove transformed into a polished, functional glass shower." },
-  { before: "/assets/before-green-shower.jpg", after: "/assets/after-green-shower.jpg", title: "Sliding shower upgrade", detail: "A custom sliding enclosure that protects the space without hiding the stonework." },
+  { before: asset("/assets/before-shower.jpeg"), after: asset("/assets/after-shower.jpeg"), title: "Sliding glass enclosure", detail: "A compact shower upgraded with clean glass panels and brushed metal hardware." },
+  { before: asset("/assets/before-double-shower.jpg"), after: asset("/assets/after-double-shower.jpg"), title: "Custom double shower", detail: "A dramatic full-width enclosure designed around a vaulted window and dual shower system." },
+  { before: asset("/assets/before-alcove-shower.jpg"), after: asset("/assets/after-alcove-shower.jpg"), title: "Frameless alcove door", detail: "A simple open alcove transformed into a polished, functional glass shower." },
+  { before: asset("/assets/before-green-shower.jpg"), after: asset("/assets/after-green-shower.jpg"), title: "Sliding shower upgrade", detail: "A custom sliding enclosure that protects the space without hiding the stonework." },
 ];
 
 const reviews = [
