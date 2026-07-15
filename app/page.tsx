@@ -75,12 +75,7 @@ export default function Home() {
     event.preventDefault();
     const form = event.currentTarget;
     const data = new FormData(form);
-    const webhookUrl = process.env.NEXT_PUBLIC_LEAD_WEBHOOK_URL;
-    if (!webhookUrl) {
-      console.error("Missing NEXT_PUBLIC_LEAD_WEBHOOK_URL");
-      return;
-    }
-    fetch(webhookUrl, {
+    fetch("https://services.leadconnectorhq.com/hooks/FjfyTuO1vncfCoNQiCIM/webhook-trigger/d892b50d-d6a2-4b72-beb5-5965e400fa24", {
       method: "POST",
       mode: "no-cors",
       body: data,
