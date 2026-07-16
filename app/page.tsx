@@ -2,9 +2,7 @@
 
 import { FormEvent, useEffect, useState } from "react";
 
-const logo = "https://assets.cdn.filesafe.space/FjfyTuO1vncfCoNQiCIM/media/689cf1c57cb236c888630dd5.png";
-const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
-const asset = (path: string) => `${basePath}${path}`;
+const logo = "https://assets.cdn.filesafe.space/FjfyTuO1vncfCoNQiCIM/media/689cf1c57cb236c888630dd5.png";\nconst basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";\nconst asset = (path: string) => `${basePath}${path}`;
 
 const heroVideos = [
   asset("/assets/hero-bathroom.mp4"),
@@ -61,10 +59,12 @@ export default function Home() {
   const [faqOpen, setFaqOpen] = useState<number | null>(0);
   const [submitted, setSubmitted] = useState(false);
   const [activeTransformation, setActiveTransformation] = useState(0);
+  const [comparisonPosition, setComparisonPosition] = useState(50);
   const [activeHeroVideo, setActiveHeroVideo] = useState(0);
 
   const showTransformation = (index: number) => {
     setActiveTransformation((index + transformations.length) % transformations.length);
+    setComparisonPosition(50);
   };
 
   useEffect(() => {
@@ -177,15 +177,20 @@ export default function Home() {
       <section className="section transformation-section" id="before-after">
         <div className="section-heading split">
           <div><p className="eyebrow dark"><span /> Before &amp; after</p><h2>Real spaces.<br />Remarkable transformations.</h2></div>
-          <p>Select a project to see the complete space before installation and the finished GlassXperts result side by side.</p>
+          <p>Select a project, then drag the comparison control to reveal the space before installation and the finished GlassXperts result.</p>
         </div>
         <div className="transformation-tabs" role="tablist" aria-label="Before and after projects">
           {transformations.map((item, index) => <button key={item.title} className={activeTransformation === index ? "active" : ""} onClick={() => showTransformation(index)} role="tab" aria-selected={activeTransformation === index}><img src={item.after} alt="" /><span><small>Project {String(index + 1).padStart(2, "0")}</small><b>{item.title}</b></span></button>)}
         </div>
         <div className="comparison-wrap">
-          <div className="before-after-pair">
-            <figure className="transformation-photo before-photo"><div><img src={transformations[activeTransformation].before} alt={`${transformations[activeTransformation].title} before glass installation`} /></div><figcaption><span>Before</span><small>Space prepared for custom glass</small></figcaption></figure>
-            <figure className="transformation-photo after-photo"><div><img src={transformations[activeTransformation].after} alt={`${transformations[activeTransformation].title} after glass installation`} /></div><figcaption><span>After</span><small>Completed GlassXperts installation</small></figcaption></figure>
+          <div className="comparison-stage">
+            <img className="comparison-image comparison-before-image" src={transformations[activeTransformation].before} alt={`${transformations[activeTransformation].title} before glass installation`} />
+            <div className="comparison-after" style={{ clipPath: `inset(0 0 0 ${comparisonPosition}%)` }} aria-hidden="true"><img className="comparison-image" src={transformations[activeTransformation].after} alt="" /></div>
+            <span className="comparison-label before-label">Before</span>
+            <span className="comparison-label after-label">After</span>
+            <div className="comparison-line" style={{ left: `${comparisonPosition}%` }} aria-hidden="true"><span>↔</span></div>
+            <input className="comparison-range" type="range" min="0" max="100" value={comparisonPosition} onChange={(event) => setComparisonPosition(Number(event.target.value))} aria-label={`Compare before and after for ${transformations[activeTransformation].title}`} />
+            <span className="comparison-hint" aria-hidden="true">Drag to compare</span>
           </div>
           <aside className="transformation-copy"><div className="transformation-counter"><span>{String(activeTransformation + 1).padStart(2, "0")} / {String(transformations.length).padStart(2, "0")}</span><div><button onClick={() => showTransformation(activeTransformation - 1)} aria-label="Previous transformation">←</button><button onClick={() => showTransformation(activeTransformation + 1)} aria-label="Next transformation">→</button></div></div><span>Completed GlassXperts project</span><h3>{transformations[activeTransformation].title}</h3><p>{transformations[activeTransformation].detail}</p><ul><li>Custom measured glass</li><li>Premium hardware</li><li>Professional installation</li></ul><a className="button" href="#quote">Transform My Shower →</a></aside>
         </div>
