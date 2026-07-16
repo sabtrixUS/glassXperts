@@ -2,6 +2,7 @@
 
 import { FormEvent, ReactNode, useEffect, useState } from "react";
 import { trackFormLead } from "../tracking";
+import { sendLead } from "../form-webhook";
 import "./commercial.css";
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
@@ -73,6 +74,8 @@ export default function CommercialPage() {
   const [video, setVideo] = useState(0);
   const [project, setProject] = useState<number | null>(null);
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -81,18 +84,30 @@ export default function CommercialPage() {
     return () => window.removeEventListener("keydown", close);
   }, []);
 
-  const submitQuote = (event: FormEvent<HTMLFormElement>) => {
+  const submitQuote = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    data.append("service_type", "Commercial glass only");
-    fetch("https://services.leadconnectorhq.com/hooks/FjfyTuO1vncfCoNQiCIM/webhook-trigger/d892b50d-d6a2-4b72-beb5-5965e400fa24", {
-      method: "POST",
-      mode: "no-cors",
-      body: data,
-    }).finally(() => {
+    const form = event.currentTarget;
+    if (submitting) return;
+    setSubmitting(true);
+    setSubmitError("");
+
+    try {
+      const emergencyField = form.elements.namedItem("is_emergency");
+      await sendLead(form, {
+        source_page: "Commercial landing page",
+        form_name: "commercial_quote",
+        service_type: "Commercial glass only",
+        is_emergency: emergencyField instanceof HTMLInputElement ? emergencyField.checked : false,
+      });
       trackFormLead("commercial_quote");
       setSubmitted(true);
-    });
+      form.reset();
+    } catch (error) {
+      console.error("Commercial request failed", error);
+      setSubmitError("We couldn't send your request. Please try again or call the commercial emergency line at (678) 501-7753.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -189,7 +204,8 @@ export default function CommercialPage() {
           <label>Project address<input name="project_address" placeholder="Commercial property address" /></label>
           <label>Project details<textarea name="message" rows={4} required placeholder="Tell us what happened, the business type and how urgently you need service." /></label>
           <label className="emergency-check"><input type="checkbox" name="is_emergency" value="yes" /> This is an active commercial glass emergency</label>
-          <button className="commercial-button form-submit" type="submit">Send Commercial Request <span>→</span></button>
+          <button className="commercial-button form-submit" type="submit" disabled={submitting}>{submitting ? "Sending Request…" : "Send Commercial Request"} {!submitting && <span>→</span>}</button>
+          {submitError && <p className="commercial-form-error" role="alert">{submitError}</p>}
           <small>Commercial inquiries only. By submitting, you agree to be contacted by GlassXperts via phone, SMS or email.</small>
         </form>}
       </section>
