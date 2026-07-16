@@ -24,6 +24,10 @@ const projects = [
   ["IMG-20190705-WA0007.jpg", "Retail security glass", "Metro Atlanta"],
   ["IMG-20190201-WA0011.jpg", "Convenience store entrance", "North Georgia"],
   ["IMG-20181229-WA0014.jpg", "Commercial double-door system", "Alpharetta"],
+  ["788f5790-0739-4618-ae87-dc7300628b0b.jpeg", "Commercial double entry system", "Metro Atlanta"],
+  ["IMG-20200908-WA0006.jpg", "Retail glass entrance", "Atlanta"],
+  ["IMG-20190725-WA0006.jpg", "Full storefront glazing", "Atlanta"],
+  ["IMG-20200125-WA0000.jpg", "Frameless commercial entry", "Metro Atlanta"],
 ].map(([image, title, location]) => [asset(`/assets/commercial/${image}`), title, location]);
 
 const services = [
@@ -188,7 +192,7 @@ export default function CommercialPage() {
 
       <footer className="commercial-footer">
         <div className="commercial-footer-main"><div><img src={logo} alt="GlassXperts"/><p>Commercial glass installation, replacement and emergency response across Metro Atlanta.</p></div><div><b>Commercial Services</b><a href="#services">Services</a><a href="#projects">Projects</a><a href="#commercial-quote">Request Service</a></div><div><b>Emergency</b><a href={`tel:${phone}`}>(678) 501-7753</a><span>Commercial glass emergencies</span><span>Metro Atlanta</span></div><div><b>Coverage</b><span>Corner stores & retail</span><span>Restaurants & gas stations</span><span>Offices & commercial properties</span></div></div>
-        <div className="privacy-disclaimer"><b>Privacy & Disclaimer</b><p>Glass Pro X is not affiliated with Facebook or Meta Platforms, Inc. This site is not a part of the Facebook website or Facebook Inc. Additionally, this site is NOT endorsed by Facebook in any way.</p><p>All information collected is handled in accordance with our <a href="https://glassproxllc.com/privacypolicy" target="_blank" rel="noreferrer">Privacy Policy</a>. We respect your privacy and do not share your information with third parties without consent.</p></div>
+        <div className="privacy-disclaimer"><b>Privacy & Disclaimer</b><div><p>Glass Pro X is not affiliated with Facebook or Meta Platforms, Inc. This site is not a part of the Facebook website or Facebook Inc. Additionally, this site is NOT endorsed by Facebook in any way.</p><p>All information collected is handled in accordance with our <a href="https://glassproxllc.com/privacypolicy" target="_blank" rel="noreferrer">Privacy Policy</a>. We respect your privacy and do not share your information with third parties without consent.</p></div></div>
       </footer>
 
       {project !== null && <div className="commercial-lightbox" role="dialog" aria-modal="true" aria-label="Commercial project image" onClick={() => setProject(null)}><button aria-label="Close project">×</button><img src={projects[project][0]} alt={projects[project][1]} /><div><b>{projects[project][1]}</b><span>{projects[project][2]}</span></div></div>}
