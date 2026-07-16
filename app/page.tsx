@@ -2,6 +2,7 @@
 
 import { FormEvent, useEffect, useState } from "react";
 import { trackFormLead } from "./tracking";
+import { sendLead } from "./form-webhook";
 
 const logo = "https://assets.cdn.filesafe.space/FjfyTuO1vncfCoNQiCIM/media/689cf1c57cb236c888630dd5.png";
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
@@ -61,6 +62,8 @@ export default function Home() {
   const [lightbox, setLightbox] = useState<number | null>(null);
   const [faqOpen, setFaqOpen] = useState<number | null>(0);
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState("");
   const [activeTransformation, setActiveTransformation] = useState(0);
   const [comparisonPosition, setComparisonPosition] = useState(50);
   const [activeHeroVideo, setActiveHeroVideo] = useState(0);
@@ -76,18 +79,27 @@ export default function Home() {
     return () => window.removeEventListener("keydown", close);
   }, []);
 
-  const submitQuote = (event: FormEvent<HTMLFormElement>) => {
+  const submitQuote = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const form = event.currentTarget;
-    const data = new FormData(form);
-    fetch("https://services.leadconnectorhq.com/hooks/FjfyTuO1vncfCoNQiCIM/webhook-trigger/d892b50d-d6a2-4b72-beb5-5965e400fa24", {
-      method: "POST",
-      mode: "no-cors",
-      body: data,
-    }).finally(() => {
+    if (submitting) return;
+    setSubmitting(true);
+    setSubmitError("");
+
+    try {
+      await sendLead(form, {
+        source_page: "Residential landing page",
+        form_name: "residential_quote",
+      });
       trackFormLead("residential_quote");
       setSubmitted(true);
-    });
+      form.reset();
+    } catch (error) {
+      console.error("Quote request failed", error);
+      setSubmitError("We couldn't send your request. Please try again or call (678) 501-7753.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -249,7 +261,8 @@ export default function Home() {
             <div className="form-row"><label>Full name<input name="name" required autoComplete="name" placeholder="Your name" /></label><label>Phone<input name="phone" type="tel" required autoComplete="tel" placeholder="(678) 555-0000" /></label></div>
             <div className="form-row"><label>Email<input name="email" type="email" required autoComplete="email" placeholder="you@email.com" /></label><label>ZIP code<input name="zip" inputMode="numeric" required placeholder="30071" maxLength={5} /></label></div>
             <label>Timeline<select name="timeline" required defaultValue=""><option value="" disabled>When would you like to begin?</option><option>As soon as possible</option><option>Within 1–2 weeks</option><option>Within a month</option><option>Just getting quotes</option></select></label>
-            <button className="button form-button" type="submit">Request My Free Quote <span>→</span></button>
+            <button className="button form-button" type="submit" disabled={submitting}>{submitting ? "Sending Request…" : "Request My Free Quote"} {!submitting && <span>→</span>}</button>
+            {submitError && <p className="form-error" role="alert">{submitError}</p>}
             <small className="form-note">By submitting, you agree to be contacted by GlassXperts via phone, SMS or email. Reply STOP to opt out.</small>
           </form>}
         </div>
