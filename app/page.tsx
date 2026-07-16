@@ -93,6 +93,7 @@ export default function Home() {
           <a href="#gallery" onClick={() => setMenuOpen(false)}>Gallery</a>
           <a href="#reviews" onClick={() => setMenuOpen(false)}>Reviews</a>
           <a href="#process" onClick={() => setMenuOpen(false)}>Process</a>
+          <a href={`${basePath}/commercial/`} onClick={() => setMenuOpen(false)}>Commercial</a>
         </nav>
         <div className="header-actions">
           <a className="phone-link" href="tel:+16785017753">(678) 501-7753</a>
@@ -251,7 +252,7 @@ export default function Home() {
       <section className="final-cta"><p className="eyebrow"><span /> Your bathroom, elevated</p><h2>Ready to see what clear<br />craftsmanship looks like?</h2><div className="button-row"><a className="button" href="#quote">Get a Free Quote</a><a className="button outline" href="tel:+16785017753">Call (678) 501-7753</a></div></section>
 
       <footer>
-        <div className="footer-main"><div className="footer-brand"><img src={logo} alt="GlassXperts" /><p>Premium frameless shower glass and professional installation throughout Metro Atlanta.</p></div><div><h3>Explore</h3><a href="#gallery">Our Work</a><a href="#reviews">Reviews</a><a href="#process">Process</a><a href="#faq">FAQ</a></div><div><h3>Contact</h3><a href="tel:+16785017753">(678) 501-7753</a><a href="https://myglassxperts.com">myglassxperts.com</a><span>Mon–Sat · 8 AM–6 PM</span></div><div><h3>Follow</h3><a href="https://www.instagram.com/glass_xperts" target="_blank">Instagram</a><a href="https://facebook.com/myglassxperts" target="_blank">Facebook</a><a href="https://www.youtube.com/@MyGlassxperts" target="_blank">YouTube</a></div></div>
+        <div className="footer-main"><div className="footer-brand"><img src={logo} alt="GlassXperts" /><p>Premium frameless shower glass and professional installation throughout Metro Atlanta.</p></div><div><h3>Explore</h3><a href="#gallery">Our Work</a><a href="#reviews">Reviews</a><a href="#process">Process</a><a href="#faq">FAQ</a><a href={`${basePath}/commercial/`}>Commercial Glass</a></div><div><h3>Contact</h3><a href="tel:+16785017753">(678) 501-7753</a><a href="https://myglassxperts.com">myglassxperts.com</a><span>Mon–Sat · 8 AM–6 PM</span></div><div><h3>Follow</h3><a href="https://www.instagram.com/glass_xperts" target="_blank">Instagram</a><a href="https://facebook.com/myglassxperts" target="_blank">Facebook</a><a href="https://www.youtube.com/@MyGlassxperts" target="_blank">YouTube</a></div></div>
         <div className="footer-bottom"><span>© 2026 GlassXperts · Atlanta, Georgia</span><span>Licensed &amp; Insured · 5-Year Warranty</span></div>
       </footer>
 
