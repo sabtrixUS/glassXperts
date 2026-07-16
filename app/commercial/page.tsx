@@ -3,6 +3,7 @@
 import { FormEvent, ReactNode, useEffect, useState } from "react";
 import { trackFormLead } from "../tracking";
 import { sendLead } from "../form-webhook";
+import JsonLd from "../seo-schema";
 import "./commercial.css";
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
@@ -71,6 +72,12 @@ const reviews = [
   ["https://randomuser.me/api/portraits/women/55.jpg", "Nicole B.", "Small Business Owner · Buckhead", "Our new office glass partitions completely changed the space. The team worked efficiently, protected our equipment and kept the project on schedule."],
 ];
 
+const commercialFaqs = [
+  ["Do you provide emergency commercial glass repair in Atlanta?", "Yes. We respond to broken storefront glass, damaged commercial entry doors and exposed business properties across Metro Atlanta. Call (678) 501-7753 for urgent service."],
+  ["What types of commercial glass do you install?", "We install and replace storefront windows, aluminum entry systems, commercial doors, office glass partitions, interior glass walls, commercial windows and curtain wall glass."],
+  ["Which Atlanta businesses do you serve?", "We serve retailers, corner stores, restaurants, gas stations, offices, property managers, contractors and commercial property owners throughout Metro Atlanta."],
+];
+
 export default function CommercialPage() {
   const [video, setVideo] = useState(0);
   const [project, setProject] = useState<number | null>(null);
@@ -113,6 +120,43 @@ export default function CommercialPage() {
 
   return (
     <main className="commercial-page">
+      <JsonLd data={[
+        {
+          "@context": "https://schema.org",
+          "@type": "Service",
+          "@id": "https://sabtrixus.github.io/glassXperts/commercial/#commercial-glass-service",
+          name: "Commercial Glass Repair and Replacement in Atlanta",
+          serviceType: "Commercial glass repair, storefront replacement and emergency glass service",
+          provider: { "@id": "https://myglassxperts.com/#business" },
+          areaServed: { "@type": "AdministrativeArea", name: "Metro Atlanta, Georgia" },
+          description: "Commercial-only glass services for storefronts, entry doors, office partitions, commercial windows and curtain walls, including urgent broken-glass response.",
+          hasOfferCatalog: {
+            "@type": "OfferCatalog",
+            name: "Commercial Glass Services",
+            itemListElement: services.map(([, name, description]) => ({
+              "@type": "Offer",
+              itemOffered: { "@type": "Service", name, description },
+            })),
+          },
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: commercialFaqs.map(([question, answer]) => ({
+            "@type": "Question",
+            name: question,
+            acceptedAnswer: { "@type": "Answer", text: answer },
+          })),
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            { "@type": "ListItem", position: 1, name: "GlassXperts", item: "https://myglassxperts.com/" },
+            { "@type": "ListItem", position: 2, name: "Commercial Glass Atlanta", item: "https://sabtrixus.github.io/glassXperts/commercial/" },
+          ],
+        },
+      ]} />
       <div className="emergency-bar">
         <span className="emergency-icon" aria-hidden="true">!</span>
         <b>Commercial glass emergency?</b>
@@ -121,7 +165,7 @@ export default function CommercialPage() {
       </div>
 
       <header className="commercial-header">
-        <a href={homeUrl} className="commercial-brand" aria-label="GlassXperts home"><img src={logo} alt="GlassXperts" /></a>
+        <a href={homeUrl} className="commercial-brand" aria-label="GlassXperts home"><img src={logo} alt="GlassXperts commercial glass company in Atlanta" /></a>
         <nav className={menuOpen ? "commercial-nav open" : "commercial-nav"} aria-label="Commercial navigation">
           <a href="#services" onClick={() => setMenuOpen(false)}>Services</a>
           <a href="#projects" onClick={() => setMenuOpen(false)}>Projects</a>
@@ -136,7 +180,7 @@ export default function CommercialPage() {
       </header>
 
       <section className="commercial-hero">
-        <video key={heroVideos[video]} autoPlay muted playsInline preload="metadata" onEnded={() => setVideo((video + 1) % heroVideos.length)} aria-label="Commercial broken glass emergency">
+        <video key={heroVideos[video]} autoPlay muted playsInline preload="metadata" poster={asset("/assets/commercial-emergency-storefront.jpg")} onEnded={() => setVideo((video + 1) % heroVideos.length)} aria-label="Commercial storefront glass repair and emergency replacement in Atlanta">
           <source src={heroVideos[video]} type="video/mp4" />
         </video>
         <div className="commercial-hero-shade" />
@@ -152,7 +196,7 @@ export default function CommercialPage() {
         </div>
         <div className="commercial-hero-card">
           <div className="commercial-emergency-image">
-            <img src={asset("/assets/commercial-emergency-storefront.jpg")} alt="Broken commercial storefront glass requiring emergency service" />
+            <img src={asset("/assets/commercial-emergency-storefront.jpg")} alt="Broken retail storefront door glass requiring emergency commercial glass repair in Atlanta" width="1920" height="1280" fetchPriority="high" />
             <span><b aria-hidden="true">!</b> Commercial glass emergency</span>
           </div>
           <div className="commercial-hero-card-copy">
@@ -183,7 +227,7 @@ export default function CommercialPage() {
       <section className="commercial-projects" id="projects">
         <div className="commercial-section-heading"><div><p className="commercial-kicker dark"><span /> Selected commercial work</p><h2>Installed across Atlanta.</h2></div><p>Storefronts, entry systems, interior partitions and full commercial window installations.</p></div>
         <div className="commercial-project-grid">
-          {projects.map(([image, title, location], index) => <button key={image} className={index === 0 || index === 3 ? "wide" : ""} onClick={() => setProject(index)}><img src={image} alt={`${title} in ${location}`} /><span><b>{title}</b><small>{location} · View project ↗</small></span></button>)}
+          {projects.map(([image, title, location], index) => <button key={image} className={index === 0 || index === 3 ? "wide" : ""} onClick={() => setProject(index)}><img src={image} alt={`${title} commercial glass project completed by GlassXperts in ${location}, Georgia`} loading={index < 2 ? "eager" : "lazy"} decoding="async" /><span><b>{title}</b><small>{location} · View project ↗</small></span></button>)}
         </div>
       </section>
 
@@ -197,9 +241,20 @@ export default function CommercialPage() {
         </div>
       </section>
 
+      <section className="commercial-local-seo" aria-labelledby="commercial-glass-atlanta-heading">
+        <div className="commercial-local-intro">
+          <p className="commercial-kicker dark"><span /> Commercial glass across Metro Atlanta</p>
+          <h2 id="commercial-glass-atlanta-heading">Storefront glass repair, commercial doors and office glass—built around your business.</h2>
+          <p>GlassXperts provides commercial glass repair, replacement and installation in Atlanta, Norcross, Buckhead, Alpharetta, Marietta, Sandy Springs, Roswell, Dunwoody, Decatur, Peachtree Corners, Duluth and surrounding communities.</p>
+        </div>
+        <div className="commercial-faq-grid">
+          {commercialFaqs.map(([question, answer]) => <article key={question}><h3>{question}</h3><p>{answer}</p></article>)}
+        </div>
+      </section>
+
       <section className="commercial-reviews" id="reviews">
         <div className="commercial-section-heading"><div><p className="commercial-kicker dark"><span /> Trusted by Atlanta businesses</p><h2>When every hour matters.</h2></div><p>Feedback from business owners and operators who needed reliable commercial glass service.</p></div>
-        <div className="commercial-review-grid">{reviews.map(([photo, name, role, quote]) => <article key={name}><div className="review-owner"><img src={photo} alt={name}/><div><b>{name}</b><small>{role}</small></div><span>★★★★★</span></div><p>“{quote}”</p></article>)}</div>
+        <div className="commercial-review-grid">{reviews.map(([photo, name, role, quote]) => <article key={name}><div className="review-owner"><img src={photo} alt={`Portrait of ${name}, an Atlanta business customer of GlassXperts`} loading="lazy" decoding="async" width="46" height="46"/><div><b>{name}</b><small>{role}</small></div><span>★★★★★</span></div><p>“{quote}”</p></article>)}</div>
       </section>
 
       <section className="commercial-quote" id="commercial-quote">
@@ -219,11 +274,11 @@ export default function CommercialPage() {
       </section>
 
       <footer className="commercial-footer">
-        <div className="commercial-footer-main"><div><a href={homeUrl} aria-label="GlassXperts home"><img src={logo} alt="GlassXperts"/></a><p>Commercial glass installation, replacement and emergency response across Metro Atlanta.</p></div><div><b>Commercial Services</b><a href={homeUrl}>Home</a><a href="#services">Services</a><a href="#projects">Projects</a><a href="#commercial-quote">Request Service</a></div><div><b>Emergency</b><a href={`tel:${phone}`}>(678) 501-7753</a><span>Commercial glass emergencies</span><span>Metro Atlanta</span></div><div><b>Coverage</b><span>Corner stores & retail</span><span>Restaurants & gas stations</span><span>Offices & commercial properties</span></div></div>
+        <div className="commercial-footer-main"><div><a href={homeUrl} aria-label="GlassXperts home"><img src={logo} alt="GlassXperts commercial glass company in Atlanta"/></a><p>Commercial glass installation, replacement and emergency response across Metro Atlanta.</p></div><div><b>Commercial Services</b><a href={homeUrl}>Home</a><a href="#services">Services</a><a href="#projects">Projects</a><a href="#commercial-quote">Request Service</a></div><div><b>Emergency</b><a href={`tel:${phone}`}>(678) 501-7753</a><span>Commercial glass emergencies</span><span>Metro Atlanta</span></div><div><b>Coverage</b><span>Corner stores & retail</span><span>Restaurants & gas stations</span><span>Offices & commercial properties</span></div></div>
         <div className="privacy-disclaimer"><b>Privacy & Disclaimer</b><div><p>Glass Pro X is not affiliated with Facebook or Meta Platforms, Inc. This site is not a part of the Facebook website or Facebook Inc. Additionally, this site is NOT endorsed by Facebook in any way.</p><p>All information collected is handled in accordance with our <a href="https://glassproxllc.com/privacypolicy" target="_blank" rel="noreferrer">Privacy Policy</a>. We respect your privacy and do not share your information with third parties without consent.</p></div></div>
       </footer>
 
-      {project !== null && <div className="commercial-lightbox" role="dialog" aria-modal="true" aria-label="Commercial project image" onClick={() => setProject(null)}><button aria-label="Close project">×</button><img src={projects[project][0]} alt={projects[project][1]} /><div><b>{projects[project][1]}</b><span>{projects[project][2]}</span></div></div>}
+      {project !== null && <div className="commercial-lightbox" role="dialog" aria-modal="true" aria-label="Commercial project image" onClick={() => setProject(null)}><button aria-label="Close project">×</button><img src={projects[project][0]} alt={`${projects[project][1]} commercial glass installation in ${projects[project][2]}, Georgia`} /><div><b>{projects[project][1]}</b><span>{projects[project][2]}</span></div></div>}
       <div className="commercial-mobile-actions"><a href={`tel:${phone}`}><span className="mobile-emergency-symbol" aria-hidden="true">!</span> Emergency Call</a><a href="#commercial-quote">Request Service</a></div>
     </main>
   );

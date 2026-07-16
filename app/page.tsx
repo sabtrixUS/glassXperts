@@ -3,6 +3,7 @@
 import { FormEvent, useEffect, useState } from "react";
 import { trackFormLead } from "./tracking";
 import { sendLead } from "./form-webhook";
+import JsonLd from "./seo-schema";
 
 const logo = "https://assets.cdn.filesafe.space/FjfyTuO1vncfCoNQiCIM/media/689cf1c57cb236c888630dd5.png";
 const homeUrl = "https://myglassxperts.com/";
@@ -105,8 +106,30 @@ export default function Home() {
 
   return (
     <main>
+      <JsonLd data={[
+        {
+          "@context": "https://schema.org",
+          "@type": "Service",
+          "@id": "https://sabtrixus.github.io/glassXperts/#frameless-shower-service",
+          name: "Custom Frameless Shower Door Installation",
+          serviceType: "Frameless shower door and shower glass installation",
+          provider: { "@id": "https://myglassxperts.com/#business" },
+          areaServed: { "@type": "AdministrativeArea", name: "Metro Atlanta, Georgia" },
+          description: "Custom measurement, fabrication and professional installation of frameless shower doors, sliding shower glass and glass enclosures across Metro Atlanta.",
+          offers: { "@type": "Offer", description: "Free in-home measurement and custom quote" },
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: faqs.map(([question, answer]) => ({
+            "@type": "Question",
+            name: question,
+            acceptedAnswer: { "@type": "Answer", text: answer },
+          })),
+        },
+      ]} />
       <header className="site-header">
-        <a href={homeUrl} className="brand" aria-label="GlassXperts home"><img src={logo} alt="GlassXperts" /></a>
+        <a href={homeUrl} className="brand" aria-label="GlassXperts home"><img src={logo} alt="GlassXperts Atlanta glass company" /></a>
         <nav className={menuOpen ? "nav-links open" : "nav-links"} aria-label="Main navigation">
           <a href="#services" onClick={() => setMenuOpen(false)}>Services</a>
           <a href="#gallery" onClick={() => setMenuOpen(false)}>Gallery</a>
@@ -147,12 +170,12 @@ export default function Home() {
           </div>
           <aside className="hero-proof">
             <div className="proof-rating">
-              <img className="proof-avatar" src="https://randomuser.me/api/portraits/women/44.jpg" alt="Les Dillard" />
+              <img className="proof-avatar" src="https://randomuser.me/api/portraits/women/44.jpg" alt="Portrait of Les Dillard, a GlassXperts customer in Buckhead, Atlanta" width="46" height="46" />
               <div><b>Les Dillard</b><small>Buckhead · Verified customer</small><span className="proof-stars">★★★★★ <i>Google review</i></span></div>
             </div>
             <p>“From measurement to installation, everything was flawless. The finished glass transformed the entire shower.”</p>
             <button className="hero-project" onClick={() => setLightbox(0)} aria-label="View featured Buckhead installation">
-              <img src={projects[0][0]} alt="Featured frameless shower installation in Buckhead" />
+              <img src={projects[0][0]} alt="Custom frameless shower door installed by GlassXperts in Buckhead, Atlanta" width="1086" height="1448" fetchPriority="high" />
               <span><b>Featured installation</b><small>Buckhead, Atlanta</small></span>
               <i>↗</i>
             </button>
@@ -186,7 +209,7 @@ export default function Home() {
         <div className="project-grid" aria-label="GlassXperts project gallery">
           {projects.map((project, index) => (
             <button className="project-card" key={project[0]} onClick={() => setLightbox(index)} aria-label={`View ${project[1]} in ${project[2]}`}>
-              <span className="project-image"><img src={project[0]} alt={`${project[1]} in ${project[2]}`} loading={index < 4 ? "eager" : "lazy"} /></span>
+              <span className="project-image"><img src={project[0]} alt={`${project[1]} installed by GlassXperts in ${project[2]}, Georgia`} loading={index < 2 ? "eager" : "lazy"} decoding="async" /></span>
               <span className="project-info"><span><b>{project[1]}</b><small>{project[2]}, Georgia</small></span><i>↗</i></span>
             </button>
           ))}
@@ -199,11 +222,11 @@ export default function Home() {
           <p>Select a project, then drag the comparison control to reveal the space before installation and the finished GlassXperts result.</p>
         </div>
         <div className="transformation-tabs" role="tablist" aria-label="Before and after projects">
-          {transformations.map((item, index) => <button key={item.title} className={activeTransformation === index ? "active" : ""} onClick={() => showTransformation(index)} role="tab" aria-selected={activeTransformation === index}><img src={item.after} alt="" /><span><small>Project {String(index + 1).padStart(2, "0")}</small><b>{item.title}</b></span></button>)}
+          {transformations.map((item, index) => <button key={item.title} className={activeTransformation === index ? "active" : ""} onClick={() => showTransformation(index)} role="tab" aria-selected={activeTransformation === index}><img src={item.after} alt={`${item.title} completed by GlassXperts in Metro Atlanta`} loading="lazy" decoding="async" /><span><small>Project {String(index + 1).padStart(2, "0")}</small><b>{item.title}</b></span></button>)}
         </div>
         <div className="comparison-wrap">
           <div className="comparison-stage">
-            <img className="comparison-image comparison-before-image" src={transformations[activeTransformation].before} alt={`${transformations[activeTransformation].title} before glass installation`} />
+            <img className="comparison-image comparison-before-image" src={transformations[activeTransformation].before} alt={`Bathroom before ${transformations[activeTransformation].title} shower glass installation in Atlanta`} decoding="async" />
             <div className="comparison-after" style={{ clipPath: `inset(0 0 0 ${comparisonPosition}%)` }} aria-hidden="true"><img className="comparison-image" src={transformations[activeTransformation].after} alt="" /></div>
             <span className="comparison-label before-label">Before</span>
             <span className="comparison-label after-label">After</span>
@@ -239,7 +262,7 @@ export default function Home() {
         <div className="reviews-list">
           {reviews.map(([photo, name, area, tag, copy]) => (
             <article className="review-card" key={name}>
-              <div className="review-top"><img className="avatar" src={photo} alt={`${name} review profile`} loading="lazy" /><div><h3>{name}</h3><span>{area} · Verified customer</span></div><b className="google-g">G</b></div>
+              <div className="review-top"><img className="avatar" src={photo} alt={`Portrait of ${name}, GlassXperts customer in ${area}, Georgia`} loading="lazy" decoding="async" width="46" height="46" /><div><h3>{name}</h3><span>{area} · Verified customer</span></div><b className="google-g">G</b></div>
               <div className="review-stars">★★★★★ <span>{tag}</span></div>
               <blockquote>“{copy}”</blockquote>
             </article>
@@ -269,6 +292,18 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="section local-seo-section" aria-labelledby="atlanta-shower-glass-heading">
+        <div className="section-heading split">
+          <div><p className="eyebrow dark"><span /> Serving Metro Atlanta</p><h2 id="atlanta-shower-glass-heading">Frameless shower doors, custom measured for Atlanta homes.</h2></div>
+          <p>GlassXperts installs custom frameless shower doors, sliding shower glass, tub enclosures and replacement shower glass throughout Atlanta and nearby communities.</p>
+        </div>
+        <div className="local-service-grid">
+          <article><h3>Custom shower glass</h3><p>Every enclosure is measured for the opening, fabricated to fit and installed with premium tempered glass and hardware.</p></article>
+          <article><h3>Shower door installation</h3><p>Our licensed and insured team handles frameless doors, sliding systems, fixed panels and complete glass shower enclosures.</p></article>
+          <article><h3>Local service area</h3><p>Atlanta, Buckhead, Norcross, Alpharetta, Marietta, Sandy Springs, Roswell, Dunwoody, Decatur, Peachtree Corners, Duluth and surrounding areas.</p></article>
+        </div>
+      </section>
+
       <section className="section faq-section" id="faq">
         <div className="section-heading split"><div><p className="eyebrow dark"><span /> Frequently asked</p><h2>Clear answers before you begin.</h2></div><a href="tel:+16785017753">Still have questions? Call us →</a></div>
         <div className="faq-list">{faqs.map(([question, answer], index) => <article className={faqOpen === index ? "open" : ""} key={question}><button onClick={() => setFaqOpen(faqOpen === index ? null : index)} aria-expanded={faqOpen === index}><span>{question}</span><b>{faqOpen === index ? "−" : "+"}</b></button><div><p>{answer}</p></div></article>)}</div>
@@ -277,13 +312,13 @@ export default function Home() {
       <section className="final-cta"><p className="eyebrow"><span /> Your bathroom, elevated</p><h2>Ready to see what clear<br />craftsmanship looks like?</h2><div className="button-row"><a className="button" href="#quote">Get a Free Quote</a><a className="button outline" href="tel:+16785017753">Call (678) 501-7753</a></div></section>
 
       <footer>
-        <div className="footer-main"><div className="footer-brand"><a href={homeUrl} aria-label="GlassXperts home"><img src={logo} alt="GlassXperts" /></a><p>Premium frameless shower glass and professional installation throughout Metro Atlanta.</p></div><div><h3>Explore</h3><a href={homeUrl}>Home</a><a href="#gallery">Our Work</a><a href="#reviews">Reviews</a><a href="#process">Process</a><a href="#faq">FAQ</a><a href={`${basePath}/commercial/`}>Commercial Glass</a></div><div><h3>Contact</h3><a href="tel:+16785017753">(678) 501-7753</a><a href={homeUrl}>myglassxperts.com</a><span>Mon–Sat · 8 AM–6 PM</span></div><div><h3>Follow</h3><a href="https://www.instagram.com/glass_xperts" target="_blank">Instagram</a><a href="https://facebook.com/myglassxperts" target="_blank">Facebook</a><a href="https://www.youtube.com/@MyGlassxperts" target="_blank">YouTube</a></div></div>
+        <div className="footer-main"><div className="footer-brand"><a href={homeUrl} aria-label="GlassXperts home"><img src={logo} alt="GlassXperts Atlanta glass company" /></a><p>Premium frameless shower glass and professional installation throughout Metro Atlanta.</p></div><div><h3>Explore</h3><a href={homeUrl}>Home</a><a href="#gallery">Our Work</a><a href="#reviews">Reviews</a><a href="#process">Process</a><a href="#faq">FAQ</a><a href={`${basePath}/commercial/`}>Commercial Glass</a></div><div><h3>Contact</h3><a href="tel:+16785017753">(678) 501-7753</a><a href={homeUrl}>myglassxperts.com</a><span>Mon–Sat · 8 AM–6 PM</span></div><div><h3>Follow</h3><a href="https://www.instagram.com/glass_xperts" target="_blank" rel="noreferrer">Instagram</a><a href="https://facebook.com/myglassxperts" target="_blank" rel="noreferrer">Facebook</a><a href="https://www.youtube.com/@MyGlassxperts" target="_blank" rel="noreferrer">YouTube</a></div></div>
         <div className="footer-bottom"><span>© 2026 GlassXperts · Atlanta, Georgia</span><span>Licensed &amp; Insured · 5-Year Warranty</span></div>
       </footer>
 
       <div className="mobile-actions"><a href="tel:+16785017753">Call Now</a><a href="#quote">Free Quote</a></div>
 
-      {lightbox !== null && <div className="lightbox" role="dialog" aria-modal="true" aria-label="Project image viewer" onClick={() => setLightbox(null)}><button onClick={() => setLightbox(null)} aria-label="Close image">×</button><img src={projects[lightbox][0]} alt={`${projects[lightbox][1]} in ${projects[lightbox][2]}`} /><div><b>{projects[lightbox][1]}</b><span>{projects[lightbox][2]}, Georgia</span></div></div>}
+      {lightbox !== null && <div className="lightbox" role="dialog" aria-modal="true" aria-label="Project image viewer" onClick={() => setLightbox(null)}><button onClick={() => setLightbox(null)} aria-label="Close image">×</button><img src={projects[lightbox][0]} alt={`${projects[lightbox][1]} installed by GlassXperts in ${projects[lightbox][2]}, Georgia`} /><div><b>{projects[lightbox][1]}</b><span>{projects[lightbox][2]}, Georgia</span></div></div>}
     </main>
   );
 }

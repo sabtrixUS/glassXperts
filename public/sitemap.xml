@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://sabtrixus.github.io/glassXperts/</loc>
+    <lastmod>2026-07-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://sabtrixus.github.io/glassXperts/assets/les-dillard-buckhead-shower.jpg</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://sabtrixus.github.io/glassXperts/assets/after-double-shower.jpg</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://sabtrixus.github.io/glassXperts/assets/after-alcove-shower.jpg</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://sabtrixus.github.io/glassXperts/commercial/</loc>
+    <lastmod>2026-07-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://sabtrixus.github.io/glassXperts/assets/commercial-emergency-storefront.jpg</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://sabtrixus.github.io/glassXperts/assets/commercial/IMG-20180328-WA0021.jpg</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://sabtrixus.github.io/glassXperts/assets/commercial/IMG-20190128-WA0004.jpg</image:loc>
+    </image:image>
+  </url>
+</urlset>
