@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useEffect, useState } from "react";
+import { trackFormLead } from "./tracking";
 
 const logo = "https://assets.cdn.filesafe.space/FjfyTuO1vncfCoNQiCIM/media/689cf1c57cb236c888630dd5.png";
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
@@ -83,7 +84,10 @@ export default function Home() {
       method: "POST",
       mode: "no-cors",
       body: data,
-    }).finally(() => setSubmitted(true));
+    }).finally(() => {
+      trackFormLead("residential_quote");
+      setSubmitted(true);
+    });
   };
 
   return (
@@ -238,7 +242,7 @@ export default function Home() {
           <ul><li>Free in-home measurement</li><li>Transparent custom quote</li><li>Same-week availability</li><li>5-year residential warranty</li></ul>
         </div>
         <div className="quote-card">
-          {submitted ? <div className="success"><span>✓</span><h3>Thank you.</h3><p>Your request has been received. A glass specialist will contact you shortly.</p><a className="button" href="tel:+16785017753">Call us now</a></div> :
+          {submitted ? <div className="success"><span>✓</span><h3>Request received.</h3><p>A GlassXperts technician will review your request and contact you within the next 20 minutes during business hours. Requests submitted after 9:00 PM will receive a response after 9:00 AM the following day.</p><a className="button" href="tel:+16785017753">Call us now</a></div> :
           <form onSubmit={submitQuote}>
             <div className="form-head"><div><small>Free quote request</small><h3>Tell us about your project</h3></div><span>Usually replies in 2 hours</span></div>
             <label>Project type<select name="project_type" required defaultValue=""><option value="" disabled>Select your project</option><option>Frameless Shower Door</option><option>Sliding Shower Door</option><option>Tub Glass Enclosure</option><option>Replacement / Repair</option></select></label>

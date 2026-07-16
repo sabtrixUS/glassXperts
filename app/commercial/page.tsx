@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, ReactNode, useEffect, useState } from "react";
+import { trackFormLead } from "../tracking";
 import "./commercial.css";
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
@@ -88,7 +89,10 @@ export default function CommercialPage() {
       method: "POST",
       mode: "no-cors",
       body: data,
-    }).finally(() => setSubmitted(true));
+    }).finally(() => {
+      trackFormLead("commercial_quote");
+      setSubmitted(true);
+    });
   };
 
   return (
@@ -177,7 +181,7 @@ export default function CommercialPage() {
 
       <section className="commercial-quote" id="commercial-quote">
         <div className="quote-copy"><p className="commercial-kicker"><span /> Commercial inquiries</p><h2>Tell us what your business needs.</h2><p>For broken or exposed glass requiring immediate attention, call our commercial emergency line now.</p><a href={`tel:${phone}`} className="quote-emergency"><b>!</b><span>Commercial emergency line<small>(678) 501-7753</small></span></a></div>
-        {submitted ? <div className="commercial-success"><span>✓</span><h3>Request received.</h3><p>Our commercial team will review your project and contact you shortly. If the property is exposed or unsafe, please call (678) 501-7753 now.</p></div> :
+        {submitted ? <div className="commercial-success"><span>✓</span><h3>Request received.</h3><p>A GlassXperts technician will review your commercial request and contact you within the next 20 minutes during business hours. Requests submitted after 9:00 PM will receive a response after 9:00 AM the following day. If the property is exposed or unsafe, please call (678) 501-7753 now.</p></div> :
         <form onSubmit={submitQuote}>
           <div className="field-row"><label>Contact name<input name="name" required placeholder="Your name" /></label><label>Business name<input name="business_name" required placeholder="Company or property" /></label></div>
           <div className="field-row"><label>Business phone<input name="phone" type="tel" required placeholder="(404) 000-0000" /></label><label>Work email<input name="email" type="email" required placeholder="name@company.com" /></label></div>
