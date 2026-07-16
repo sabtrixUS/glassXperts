@@ -25,3 +25,14 @@
 .commercial-hero h1 em{position:relative;isolation:isolate;display:inline-block;white-space:nowrap;margin-top:.2em;padding:.08em .2em .13em;color:#fff;font-size:clamp(2.2rem,4.1vw,4.35rem);line-height:1.03;letter-spacing:-.055em;background:#2f80ed;border:2px solid #75b3ff;transform:rotate(-.65deg);box-shadow:0 0 0 10px rgba(6,21,36,.38)}
 .commercial-hero h1 em:after{content:"";position:absolute;z-index:-1;inset:-12px -16px -14px;border:2px solid rgba(130,185,255,.55);transform:rotate(1.15deg);pointer-events:none}
 @media(max-width:680px){.commercial-hero h1 em{font-size:clamp(1.55rem,7.2vw,2rem);margin-top:.3em;padding:.13em .16em .17em;box-shadow:0 0 0 7px rgba(6,21,36,.38)}.commercial-hero h1 em:after{inset:-9px -10px -10px}}
+
+/* Mobile emergency and navigation alignment */
+@media(max-width:680px){
+  .emergency-bar{justify-content:center;column-gap:8px;row-gap:4px;padding:9px 16px 10px;text-align:center;line-height:1.12}
+  .emergency-bar b{line-height:1.12}
+  .emergency-bar a{flex:0 0 100%;margin:0;text-align:center;line-height:1.12}
+  .commercial-actions{margin-left:auto}
+  .commercial-menu{margin-left:auto;padding:8px 0 8px 18px;line-height:1}
+  .commercial-mobile-actions a{display:flex;align-items:center;justify-content:center;gap:8px}
+  .mobile-emergency-symbol{display:grid;place-items:center;width:22px;height:22px;border:2px solid currentColor;border-radius:50%;font-size:.78rem;font-weight:950;line-height:1}
+}

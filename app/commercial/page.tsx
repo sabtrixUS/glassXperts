@@ -196,7 +196,7 @@ export default function CommercialPage() {
       </footer>
 
       {project !== null && <div className="commercial-lightbox" role="dialog" aria-modal="true" aria-label="Commercial project image" onClick={() => setProject(null)}><button aria-label="Close project">×</button><img src={projects[project][0]} alt={projects[project][1]} /><div><b>{projects[project][1]}</b><span>{projects[project][2]}</span></div></div>}
-      <div className="commercial-mobile-actions"><a href={`tel:${phone}`}>Emergency Call</a><a href="#commercial-quote">Request Service</a></div>
+      <div className="commercial-mobile-actions"><a href={`tel:${phone}`}><span className="mobile-emergency-symbol" aria-hidden="true">!</span> Emergency Call</a><a href="#commercial-quote">Request Service</a></div>
     </main>
   );
 }
