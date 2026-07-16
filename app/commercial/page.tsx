@@ -8,6 +8,7 @@ import "./commercial.css";
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 const asset = (path: string) => `${basePath}${path}`;
 const logo = "https://assets.cdn.filesafe.space/FjfyTuO1vncfCoNQiCIM/media/689cf1c57cb236c888630dd5.png";
+const homeUrl = "https://myglassxperts.com/";
 const phone = "+16785017753";
 
 const heroVideos = [
@@ -120,7 +121,7 @@ export default function CommercialPage() {
       </div>
 
       <header className="commercial-header">
-        <a href={`${basePath}/`} className="commercial-brand" aria-label="GlassXperts home"><img src={logo} alt="GlassXperts" /></a>
+        <a href={homeUrl} className="commercial-brand" aria-label="GlassXperts home"><img src={logo} alt="GlassXperts" /></a>
         <nav className={menuOpen ? "commercial-nav open" : "commercial-nav"} aria-label="Commercial navigation">
           <a href="#services" onClick={() => setMenuOpen(false)}>Services</a>
           <a href="#projects" onClick={() => setMenuOpen(false)}>Projects</a>
@@ -218,7 +219,7 @@ export default function CommercialPage() {
       </section>
 
       <footer className="commercial-footer">
-        <div className="commercial-footer-main"><div><img src={logo} alt="GlassXperts"/><p>Commercial glass installation, replacement and emergency response across Metro Atlanta.</p></div><div><b>Commercial Services</b><a href="#services">Services</a><a href="#projects">Projects</a><a href="#commercial-quote">Request Service</a></div><div><b>Emergency</b><a href={`tel:${phone}`}>(678) 501-7753</a><span>Commercial glass emergencies</span><span>Metro Atlanta</span></div><div><b>Coverage</b><span>Corner stores & retail</span><span>Restaurants & gas stations</span><span>Offices & commercial properties</span></div></div>
+        <div className="commercial-footer-main"><div><a href={homeUrl} aria-label="GlassXperts home"><img src={logo} alt="GlassXperts"/></a><p>Commercial glass installation, replacement and emergency response across Metro Atlanta.</p></div><div><b>Commercial Services</b><a href={homeUrl}>Home</a><a href="#services">Services</a><a href="#projects">Projects</a><a href="#commercial-quote">Request Service</a></div><div><b>Emergency</b><a href={`tel:${phone}`}>(678) 501-7753</a><span>Commercial glass emergencies</span><span>Metro Atlanta</span></div><div><b>Coverage</b><span>Corner stores & retail</span><span>Restaurants & gas stations</span><span>Offices & commercial properties</span></div></div>
         <div className="privacy-disclaimer"><b>Privacy & Disclaimer</b><div><p>Glass Pro X is not affiliated with Facebook or Meta Platforms, Inc. This site is not a part of the Facebook website or Facebook Inc. Additionally, this site is NOT endorsed by Facebook in any way.</p><p>All information collected is handled in accordance with our <a href="https://glassproxllc.com/privacypolicy" target="_blank" rel="noreferrer">Privacy Policy</a>. We respect your privacy and do not share your information with third parties without consent.</p></div></div>
       </footer>
 
