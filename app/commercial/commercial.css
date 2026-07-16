@@ -30,7 +30,7 @@
 @media(max-width:680px){
   .emergency-bar{justify-content:center;column-gap:8px;row-gap:4px;padding:9px 16px 10px;text-align:center;line-height:1.12}
   .emergency-bar b{line-height:1.12}
-  .emergency-bar a{flex:0 0 100%;margin:0;text-align:center;line-height:1.12}
+  .emergency-bar a{flex:0 0 100%;margin:0;border-bottom:0;text-align:center;line-height:1.12}
   .commercial-actions{margin-left:auto}
   .commercial-menu{margin-left:auto;padding:8px 0 8px 18px;line-height:1}
   .commercial-mobile-actions a{display:flex;align-items:center;justify-content:center;gap:8px}
