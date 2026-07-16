@@ -150,9 +150,16 @@ export default function CommercialPage() {
           <div className="commercial-proof"><span>Commercial only</span><span>Licensed & insured</span><span>Emergency response</span><span>Across Metro Atlanta</span></div>
         </div>
         <div className="commercial-hero-card">
-          <small>Built for active businesses</small>
-          <strong>Secure the property.<br/>Protect the operation.</strong>
-          <p>We coordinate around business hours, tenant access and operational priorities.</p>
+          <div className="commercial-emergency-image">
+            <img src={asset("/assets/commercial-emergency-storefront.jpg")} alt="Broken commercial storefront glass requiring emergency service" />
+            <span><b aria-hidden="true">!</b> Commercial glass emergency</span>
+          </div>
+          <div className="commercial-hero-card-copy">
+            <small>Emergency response specialists</small>
+            <strong>Broken glass can&apos;t wait.</strong>
+            <p>We secure storefronts and commercial entrances across Metro Atlanta.</p>
+            <a href={`tel:${phone}`}>Call Emergency Line <span>→</span></a>
+          </div>
         </div>
       </section>
 
