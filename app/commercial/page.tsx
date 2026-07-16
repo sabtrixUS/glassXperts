@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, ReactNode, useEffect, useState } from "react";
 import "./commercial.css";
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
@@ -27,11 +27,35 @@ const projects = [
 ].map(([image, title, location]) => [asset(`/assets/commercial/${image}`), title, location]);
 
 const services = [
-  ["01", "Emergency board-up & glass replacement", "Rapid response for broken storefronts, entry doors and damaged commercial glass."],
-  ["02", "Storefront windows & entrances", "Professional aluminum framing, glass doors and storefront systems for active businesses."],
-  ["03", "Office glass & partitions", "Interior glass walls, conference rooms and doors that create bright, modern workspaces."],
-  ["04", "Commercial windows & curtain walls", "Installation and replacement for multi-story buildings, retail centers and commercial properties."],
+  ["emergency", "Emergency board-up & glass replacement", "Rapid response for broken storefronts, entry doors and damaged commercial glass."],
+  ["storefront", "Storefront windows & entrances", "Professional aluminum framing, glass doors and storefront systems for active businesses."],
+  ["office", "Office glass & partitions", "Interior glass walls, conference rooms and doors that create bright, modern workspaces."],
+  ["building", "Commercial windows & curtain walls", "Installation and replacement for multi-story buildings, retail centers and commercial properties."],
 ];
+
+const industries = [
+  ["retail", "Corner Stores & Retail", "Storefronts, display glass and secure entry systems."],
+  ["fuel", "Gas Stations", "High-traffic entrances and urgent glass replacement."],
+  ["restaurant", "Restaurants", "Front doors, dining-area glass and storefront systems."],
+  ["office", "Offices & Small Businesses", "Interior partitions, doors and modern glass workspaces."],
+  ["property", "Commercial Properties", "Windows, curtain walls and building-wide replacements."],
+  ["manager", "Property Managers", "Responsive service across occupied commercial locations."],
+];
+
+function CommercialIcon({ name }: { name: string }) {
+  const paths: Record<string, ReactNode> = {
+    emergency: <><path d="M12 3 2.8 20h18.4L12 3Z"/><path d="M12 9v5m0 3h.01"/></>,
+    storefront: <><path d="M4 10h16v11H4zM3 10l2-6h14l2 6M9 10v11m6-11v11M4 15h16"/></>,
+    office: <><path d="M4 3h16v18H4zM9 3v18m6-18v18M4 10h16"/></>,
+    building: <><path d="M5 21V3h14v18M9 7h2m2 0h2M9 11h2m2 0h2M9 15h2m2 0h2M3 21h18"/></>,
+    retail: <><path d="M4 10h16v11H4zM3 10l2-6h14l2 6M8 14h8v7"/></>,
+    fuel: <><path d="M5 21V5h9v16M5 9h9M16 8l3 3v7a2 2 0 0 1-4 0v-4M8 17h3"/></>,
+    restaurant: <><path d="M7 3v8m-3-8v5c0 2 1 3 3 3s3-1 3-3V3M7 11v10M16 3v18m0-18c3 2 4 5 4 8h-4"/></>,
+    property: <><path d="M4 21V7l8-4 8 4v14M8 10h2m4 0h2M8 14h2m4 0h2M10 21v-4h4v4"/></>,
+    manager: <><circle cx="9" cy="7" r="3"/><path d="M3 21c.5-4 2.5-6 6-6s5.5 2 6 6M17 8v6m-3-3h6"/></>,
+  };
+  return <span className="commercial-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">{paths[name] ?? paths.office}</svg></span>;
+}
 
 const reviews = [
   ["https://randomuser.me/api/portraits/men/46.jpg", "Marcus T.", "Corner Store Owner · Atlanta", "A damaged front door could have shut us down for the day. GlassXperts responded quickly, secured the entrance and handled the replacement without disrupting our customers."],
@@ -106,23 +130,22 @@ export default function CommercialPage() {
           <small>Built for active businesses</small>
           <strong>Secure the property.<br/>Protect the operation.</strong>
           <p>We coordinate around business hours, tenant access and operational priorities.</p>
-          <button onClick={() => setVideo((video + 1) % heroVideos.length)}>View next emergency scene ↗</button>
         </div>
       </section>
 
       <section className="commercial-intro" id="services">
         <div><p className="commercial-kicker dark"><span /> Commercial services only</p><h2>Glass solutions designed around your business.</h2></div>
-        <p>We work with business owners, property managers, contractors and facility teams. This page is dedicated exclusively to commercial projects—no residential service requests.</p>
+        <p>We work with business owners, property managers, contractors and facility teams—coordinating every project around access, safety, schedules and day-to-day operations.</p>
       </section>
 
       <section className="commercial-service-grid">
-        {services.map(([number, title, text]) => <article key={number}><span>{number}</span><h3>{title}</h3><p>{text}</p><a href="#commercial-quote">Request service →</a></article>)}
+        {services.map(([icon, title, text]) => <article key={icon}><CommercialIcon name={icon}/><h3>{title}</h3><p>{text}</p><a href="#commercial-quote">Request service →</a></article>)}
       </section>
 
       <section className="industries-band" id="industries">
         <div><p className="commercial-kicker"><span /> Who we serve</p><h2>Local businesses to large commercial properties.</h2></div>
         <div className="industry-list">
-          {[["STORE", "Corner stores & retail"], ["FUEL", "Gas stations"], ["DINE", "Restaurants"], ["WORK", "Offices & small businesses"], ["BUILD", "Commercial properties"], ["MANAGE", "Property managers"]].map(([tag, name]) => <div key={tag}><b>{tag}</b><span>{name}</span></div>)}
+          {industries.map(([icon, name, description]) => <article key={icon}><CommercialIcon name={icon}/><div><b>{name}</b><span>{description}</span></div></article>)}
         </div>
       </section>
 
@@ -163,7 +186,10 @@ export default function CommercialPage() {
         </form>}
       </section>
 
-      <footer className="commercial-footer"><div><img src={logo} alt="GlassXperts"/><p>Commercial glass installation, replacement and emergency response across Metro Atlanta.</p></div><div><b>Commercial Services</b><a href="#services">Services</a><a href="#projects">Projects</a><a href="#commercial-quote">Request Service</a></div><div><b>Emergency</b><a href={`tel:${phone}`}>(678) 501-7753</a><span>Commercial glass emergencies</span><span>Metro Atlanta</span></div><div className="footer-residential"><b>Looking for residential shower glass?</b><a href={`${basePath}/`}>Visit our residential website →</a></div></footer>
+      <footer className="commercial-footer">
+        <div className="commercial-footer-main"><div><img src={logo} alt="GlassXperts"/><p>Commercial glass installation, replacement and emergency response across Metro Atlanta.</p></div><div><b>Commercial Services</b><a href="#services">Services</a><a href="#projects">Projects</a><a href="#commercial-quote">Request Service</a></div><div><b>Emergency</b><a href={`tel:${phone}`}>(678) 501-7753</a><span>Commercial glass emergencies</span><span>Metro Atlanta</span></div><div><b>Coverage</b><span>Corner stores & retail</span><span>Restaurants & gas stations</span><span>Offices & commercial properties</span></div></div>
+        <div className="privacy-disclaimer"><b>Privacy & Disclaimer</b><p>Glass Pro X is not affiliated with Facebook or Meta Platforms, Inc. This site is not a part of the Facebook website or Facebook Inc. Additionally, this site is NOT endorsed by Facebook in any way.</p><p>All information collected is handled in accordance with our <a href="https://glassproxllc.com/privacypolicy" target="_blank" rel="noreferrer">Privacy Policy</a>. We respect your privacy and do not share your information with third parties without consent.</p></div>
+      </footer>
 
       {project !== null && <div className="commercial-lightbox" role="dialog" aria-modal="true" aria-label="Commercial project image" onClick={() => setProject(null)}><button aria-label="Close project">×</button><img src={projects[project][0]} alt={projects[project][1]} /><div><b>{projects[project][1]}</b><span>{projects[project][2]}</span></div></div>}
       <div className="commercial-mobile-actions"><a href={`tel:${phone}`}>Emergency Call</a><a href="#commercial-quote">Request Service</a></div>
