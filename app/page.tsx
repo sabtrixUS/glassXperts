@@ -2,7 +2,9 @@
 
 import { FormEvent, useEffect, useState } from "react";
 
-const logo = "https://assets.cdn.filesafe.space/FjfyTuO1vncfCoNQiCIM/media/689cf1c57cb236c888630dd5.png";\nconst basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";\nconst asset = (path: string) => `${basePath}${path}`;
+const logo = "https://assets.cdn.filesafe.space/FjfyTuO1vncfCoNQiCIM/media/689cf1c57cb236c888630dd5.png";
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+const asset = (path: string) => `${basePath}${path}`;
 
 const heroVideos = [
   asset("/assets/hero-bathroom.mp4"),
