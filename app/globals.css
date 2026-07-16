@@ -57,3 +57,8 @@
 .proof-rating>div:last-child{gap:4px}
 .proof-rating small{color:#9aa9ba;font-size:.66rem}
 .proof-stars i{margin-left:5px;color:#9aa9ba;font-style:normal;letter-spacing:0;font-size:.62rem}
+
+
+/* Verified form submission states */
+.form-button:disabled{cursor:wait;opacity:.68}
+.form-error{margin:12px 0 0;color:#b42318;font-size:.8rem;line-height:1.45;text-align:center}
